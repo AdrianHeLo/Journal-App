@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "495372375206",
-    "project_id": "journalapp-fdbdb",
-    "storage_bucket": "journalapp-fdbdb.firebasestorage.app"
+    "project_number": "458585967366",
+    "project_id": "mydatabase-2e7c4",
+    "storage_bucket": "mydatabase-2e7c4.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:495372375206:android:3f9497ee7d798d089d5067",
+        "mobilesdk_app_id": "1:458585967366:android:9b3f83131ce77ced08ec87",
         "android_client_info": {
           "package_name": "com.adrianhelo.journalapp"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBZ8sXoT2O23c0tX2bwd_0LQSNgYNpxmtE"
+          "current_key": "AIzaSyCwh2pg0Kdl0ADkHuRjlGGLTse4Va9G_rA"
         }
       ],
       "services": {
