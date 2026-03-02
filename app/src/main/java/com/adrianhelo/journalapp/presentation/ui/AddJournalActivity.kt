@@ -29,9 +29,9 @@ class AddJournalActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddJournalBinding
 
     private lateinit var auth: FirebaseAuth
-    private lateinit var user: FirebaseUser
+    private var user: FirebaseUser? = null
     private lateinit var storage: StorageReference
-    private lateinit var imageUri: Uri
+    private var imageUri: Uri? = null
 
     private var db = FirebaseFirestore.getInstance()
     private var collection: CollectionReference = db.collection("Journal")
@@ -43,7 +43,6 @@ class AddJournalActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_journal)
 
-        //user = auth.currentUser!!
         storage = FirebaseStorage.getInstance().getReference()
         auth = FirebaseAuth.getInstance()
 
@@ -57,9 +56,7 @@ class AddJournalActivity : AppCompatActivity() {
             }
 
             postCameraActivityAddJournal.setOnClickListener {
-                var i: Intent = Intent(Intent.ACTION_GET_CONTENT)
-                i.setType("image/*")
-                startActivityForResult(i, 1)
+                getAction.launch("image/*")
             }
 
             saveButtonActivityAddJournal.setOnClickListener {
@@ -70,7 +67,7 @@ class AddJournalActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        user = auth.currentUser!!
+        user = auth.currentUser
     }
 
     override fun onStop() {
@@ -80,58 +77,63 @@ class AddJournalActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?){
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 && resultCode == RESULT_OK){
-            if (data != null){
-                imageUri =data.data!!
-                binding.imageActivityAddJournal.setImageURI(imageUri)
-            }
+    private fun saveJournal(){
+        val title = binding.postUsernameInputActivityAddJournal.text.toString().trim()
+        val thoughts = binding.postThoughtsInputActivityAddJournal.text.toString().trim()
+
+        if (title.isNotEmpty() && thoughts.isNotEmpty() && imageUri != null) {
+            binding.progressCircularActivityAddJournal.visibility = View.VISIBLE
+
+            val filePath = storage.child("journal_images").child("image_${Timestamp.now().seconds}")
+
+            filePath.putFile(imageUri!!)
+                .continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let { throw it }
+                    }
+                    filePath.downloadUrl
+                }
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val downloadUri = task.result.toString()
+
+                        val journal = JournalModel(
+                            title,
+                            currentUser,
+                            currentUserId,
+                            downloadUri,
+                            thoughts,
+                            Timestamp(Date())
+                        )
+
+                        collection.add(journal)
+                            .addOnSuccessListener {
+                                binding.progressCircularActivityAddJournal.visibility = View.INVISIBLE
+                                Log.i("FirestoreSuccess", "Saved in Firestore")
+                                startActivity(Intent(this, JournalActivity::class.java))
+                                finish()
+                            }
+                            .addOnFailureListener { e ->
+                                binding.progressCircularActivityAddJournal.visibility = View.INVISIBLE
+                                Log.e("FirestoreError", "Error saving", e)
+                            }
+                    }
+                }
+                .addOnFailureListener {
+                    binding.progressCircularActivityAddJournal.visibility = View.INVISIBLE
+                    Log.e("FirestoreError", "Error to upload the image")
+                    Toast.makeText(this, "Error to upload the image", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Log.e("FirestoreError", "Complete all fields")
+            Toast.makeText(this, "Complete all fields", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun saveJournal(){
-        var title: String = binding.postUsernameInputActivityAddJournal.text.toString().trim()
-        var thoughts: String = binding.postThoughtsInputActivityAddJournal.text.toString().trim()
-        binding.progressCircularActivityAddJournal.visibility = View.VISIBLE
-
-        if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(thoughts) && imageUri != null){
-
-            val filePath: StorageReference = storage.child("journal").child("_image_"+Timestamp.now().seconds)
-
-            filePath.putFile(imageUri).addOnSuccessListener {
-                filePath.downloadUrl.addOnSuccessListener {
-
-                    var uri: String = it.toString()
-                    var timestamp: Timestamp = Timestamp(Date())
-
-                    var journal: JournalModel = JournalModel(
-                        title,
-                        currentUser,
-                        currentUserId,
-                        uri.toInt(),
-                        thoughts,
-                        timestamp)
-
-                    Log.i("AJA", journal.toString())
-
-                    collection.add(journal).addOnSuccessListener {
-                        binding.progressCircularActivityAddJournal.visibility = View.INVISIBLE
-                        Log.e("AJA", collection.toString())
-                        var intent: Intent = Intent(this, JournalActivity::class.java)
-                        startActivity(intent)
-                        finish()
-                    }
-                }.addOnFailureListener {
-                    binding.progressCircularActivityAddJournal.visibility = View.INVISIBLE
-                    Log.e("AJA", "Failed to upload the image")
-                    Toast.makeText(this, "Failed to upload the image", Toast.LENGTH_LONG).show()
-                }
-            }
-        }else{
-            binding.progressCircularActivityAddJournal.visibility = View.INVISIBLE
-            Log.e("AJA", "Fields empties or without image!!!")
-            Toast.makeText(this, "Fields empties or without image!!!", Toast.LENGTH_LONG).show()
+    private val getAction = registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+        if (uri != null) {
+            imageUri = uri
+            binding.imageActivityAddJournal.setImageURI(imageUri)
         }
     }
 

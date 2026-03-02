@@ -12,7 +12,7 @@ class JournalAdapter(private val context: Context, private val journalList: List
 
         lateinit var binding: JournalItemListBinding
 
-    inner class ViewHolder(var binding: JournalItemListBinding): RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(private var binding: JournalItemListBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(journal: JournalModel ){
             binding.journal = journal
         }
