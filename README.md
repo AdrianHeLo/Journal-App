@@ -33,6 +33,7 @@ Es una aplicación de diario personal desarrollada en Kotlin que permite a los u
 
 ## 📱 Screenshots
 <p align="center">
+  <img src="app/src/main/res/drawable/img_2.png" width="250"/>
   <img src="app/src/main/res/drawable/img.png" width="250"/>
   <img src="app/src/main/res/drawable/img_1.png" width="250"/>
 </p>
