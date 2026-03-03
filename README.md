@@ -39,11 +39,7 @@ Es una aplicación de diario personal desarrollada en Kotlin que permite a los u
 </p>
 
 ## 🎥 Demo
-<p align="center">
-  <a href="https://youtu.be/demo">
-    <img src="images/video-preview.png" width="400"/>
-  </a>
-</p>
+![demo video](./app/src/main/res/screenshots/)
 
 ## 👤 Autor
 Adrián Hernández López / 
