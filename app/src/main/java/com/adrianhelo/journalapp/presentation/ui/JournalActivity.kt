@@ -2,6 +2,7 @@ package com.adrianhelo.journalapp.presentation.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -11,11 +12,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.adrianhelo.journalapp.R
 import com.adrianhelo.journalapp.data.JournalModel
 import com.adrianhelo.journalapp.data.JournalUser
 import com.adrianhelo.journalapp.databinding.ActivityJournalBinding
 import com.adrianhelo.journalapp.presentation.adapter.JournalAdapter
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -48,24 +51,31 @@ class JournalActivity : AppCompatActivity() {
         binding.recyclerContainerActivityJournal.setHasFixedSize(true)
         binding.recyclerContainerActivityJournal.layoutManager = LinearLayoutManager(this)
         journalList = arrayListOf<JournalModel>()
+
     }
 
     override fun onStart() {
         super.onStart()
-        collection.whereEqualTo("userId", JournalUser.instance?.userId)
+        Log.i("JournalActivity", "UserId: ${user.uid}")
+        journalList.clear()
+        collection.whereEqualTo("userId", user.uid)
             .get()
             .addOnSuccessListener { it ->
                 if (!it.isEmpty){
-                it.forEach{
-                    var journal = it.toObject(JournalModel::class.java)
-                    journalList.add(journal)
-                }
-                binding.message.visibility = View.GONE
-                adapter = JournalAdapter(this, journalList)
-                binding.recyclerContainerActivityJournal.adapter = adapter
-                adapter.notifyDataSetChanged()
+                    for (document in it){
+                        val journal = document.toObject(JournalModel::class.java)
+                        journalList.add(journal)
+                    }
+                    binding.message.visibility = View.GONE
+                    adapter = JournalAdapter(this, journalList)
+                    binding.recyclerContainerActivityJournal.adapter = adapter
+                    adapter.notifyDataSetChanged()
             }else {
+                Log.w("JournalActivity", "Error")
                 binding.message.visibility = View.VISIBLE
+                    if (::adapter.isInitialized){
+                        adapter.notifyDataSetChanged()
+                    }
             }
         }.addOnFailureListener {
             Toast.makeText(this, "Opps! Something went wrong!", Toast.LENGTH_LONG).show()
