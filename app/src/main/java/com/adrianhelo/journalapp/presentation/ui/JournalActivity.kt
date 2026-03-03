@@ -38,7 +38,6 @@ class JournalActivity : AppCompatActivity() {
 
     private lateinit var adapter: JournalAdapter
     private lateinit var journalList: MutableList<JournalModel>
-    private lateinit var noPostTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,11 +70,11 @@ class JournalActivity : AppCompatActivity() {
                     binding.recyclerContainerActivityJournal.adapter = adapter
                     adapter.notifyDataSetChanged()
             }else {
-                Log.w("JournalActivity", "Error")
                 binding.message.visibility = View.VISIBLE
                     if (::adapter.isInitialized){
                         adapter.notifyDataSetChanged()
                     }
+                    Log.w("JournalActivity", "Error")
             }
         }.addOnFailureListener {
             Toast.makeText(this, "Opps! Something went wrong!", Toast.LENGTH_LONG).show()

@@ -12,7 +12,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:cardCornerRadius="8dp"
         app:cardUseCompatPadding="true">
 
@@ -91,7 +91,7 @@
                 android:id="@+id/journal_timestamp_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{journal.timeAdded.toString()}"
+                android:text="@{journal.getFormattedDate()}"
                 android:textColor="@color/black"
                 android:hint="Date created"
                 android:textColorHint="@color/black"
