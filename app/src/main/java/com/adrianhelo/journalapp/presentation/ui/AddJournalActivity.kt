@@ -18,8 +18,10 @@ import com.adrianhelo.journalapp.databinding.ActivityAddJournalBinding
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.util.Date
@@ -44,14 +46,15 @@ class AddJournalActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_journal)
 
         storage = FirebaseStorage.getInstance().getReference()
-        auth = FirebaseAuth.getInstance()
+        auth = Firebase.auth
 
         binding.apply {
             progressCircularActivityAddJournal.visibility = View.INVISIBLE
 
             if (JournalUser.instance != null){
-                currentUserId = JournalUser.instance!!.userId.toString()
-                currentUser = JournalUser.instance!!.username.toString()
+                var journal: JournalUser = JournalUser.instance!!
+                journal.username = auth.currentUser?.displayName.toString()
+                journal.userId = auth.currentUser?.uid.toString()
                 postUsernameActivityAddJournal.text = currentUser
             }
 
@@ -99,8 +102,8 @@ class AddJournalActivity : AppCompatActivity() {
 
                         val journal = JournalModel(
                             title,
-                            currentUser,
-                            currentUserId,
+                            auth.currentUser?.displayName.toString(),
+                            auth.currentUser?.uid.toString(),
                             downloadUri,
                             thoughts,
                             Timestamp(Date())

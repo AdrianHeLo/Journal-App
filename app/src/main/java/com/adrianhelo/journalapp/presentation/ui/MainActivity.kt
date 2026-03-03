@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.adrianhelo.journalapp.R
+import com.adrianhelo.journalapp.data.JournalUser
 import com.adrianhelo.journalapp.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -53,7 +54,9 @@ class MainActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("TAG", "signInWithEmail:success")
-                    val user = auth.currentUser
+                    var journal: JournalUser = JournalUser.instance!!
+                    journal.userId = auth.currentUser?.uid
+                    journal.username = auth.currentUser?.displayName
                     updateUI()
                 } else {
                     // If sign in fails, display a message to the user.
