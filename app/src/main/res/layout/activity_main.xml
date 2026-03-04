@@ -8,11 +8,22 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/flash_white"
+        android:background="@color/white"
         tools:context=".presentation.ui.MainActivity"
         android:fitsSystemWindows="true">
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_layer_unlock_activity_main"
+            app:lottie_rawRes="@raw/unlock"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/blizzard_blue"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false"/>
+
         <LinearLayout
+            android:id="@+id/login_activity_main_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -22,14 +33,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/image_login_activity_main"
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie_layer_login_activity_main"
+                app:lottie_rawRes="@raw/login_monkey_character"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="24dp"
-                android:src="@drawable/ic_person_pin"
-                android:background="@drawable/login_image_container"/>
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -60,20 +72,29 @@
                 android:textColor="@color/sea_blue"
                 android:textStyle="bold"/>
 
-            <EditText
-                android:id="@+id/password_login_activity_main"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password_text_field"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp"
-                android:hint="password"
-                android:textColorHint="@color/sea_blue"
-                android:textSize="14sp"
-                android:textColor="@color/black"
-                android:background="@drawable/edit_text_border_box"
-                android:maxLines="1"
-                android:inputType="textPassword"
-                android:paddingLeft="12dp"/>
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                app:endIconMode="password_toggle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password_login_activity_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="24dp"
+                    android:hint="password"
+                    android:textColorHint="@color/sea_blue"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:background="@drawable/edit_text_border_box"
+                    android:maxLines="1"
+                    android:inputType="textPassword"
+                    android:paddingLeft="12dp"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/login_button_activity_main"
@@ -109,5 +130,6 @@
                 android:textStyle="bold"/>
 
         </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

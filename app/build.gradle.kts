@@ -80,4 +80,10 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.14.2")
     //annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
     kapt("com.github.bumptech.glide:compiler:4.16.0")
+
+    // dotLottie Android Library dependency
+    //implementation("com.github.LottieFiles:dotlottie-android:0.5.0")
+    implementation("com.airbnb.android:lottie:6.1.0")
+
+    implementation("com.google.android.material:material:1.11.0")
 }
