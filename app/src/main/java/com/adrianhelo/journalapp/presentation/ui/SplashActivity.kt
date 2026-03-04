@@ -14,7 +14,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-
+        supportActionBar?.hide()
         val animationView = findViewById<LottieAnimationView>(R.id.lottie_layer)
         animationView.playAnimation()
 

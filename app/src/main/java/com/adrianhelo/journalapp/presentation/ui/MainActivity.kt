@@ -1,7 +1,9 @@
 package com.adrianhelo.journalapp.presentation.ui
 
+import android.animation.Animator
 import android.content.Intent
 import android.os.Bundle
+import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -12,6 +14,8 @@ import com.adrianhelo.journalapp.R
 import com.adrianhelo.journalapp.data.JournalUser
 import com.adrianhelo.journalapp.databinding.ActivityMainBinding
 import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieProperty
+import com.airbnb.lottie.model.KeyPath
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -20,22 +24,60 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var auth: FirebaseAuth
-    private lateinit var lottieAnimationView: LottieAnimationView
+    private lateinit var animationView: LottieAnimationView
+    private lateinit var monkeyAnimator: LottieAnimationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        supportActionBar?.hide()
+
         binding.lottieLayerUnlockActivityMain.visibility = View.INVISIBLE
         binding.loginActivityMainContainer.visibility = View.VISIBLE
+
+        val monkeyAnimator = binding.lottieLayerLoginActivityMain
+        val passwordTextField = binding.passwordTextField
+        val passwordEdit = binding.passwordLoginActivityMain
+
         // Initialize Firebase Auth
         auth = Firebase.auth
+
+        binding.passwordLoginActivityMain.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus){
+                monkeyAnimator.setMinAndMaxFrame(30, 70)
+                monkeyAnimator.speed = 1f
+                monkeyAnimator.playAnimation()
+            }else{
+                monkeyAnimator.setMinAndMaxFrame(145, 201)
+                monkeyAnimator.speed = 1f
+                monkeyAnimator.playAnimation()
+            }
+        }
+
+        passwordTextField.setEndIconOnClickListener{
+            val selection = passwordEdit.selectionEnd
+            val isPasswordVisible = passwordEdit.transformationMethod == null
+
+            if (isPasswordVisible){
+                monkeyAnimator.setMinAndMaxFrame(30, 70)
+                monkeyAnimator.speed = -1f
+                passwordEdit.transformationMethod = PasswordTransformationMethod.getInstance()
+            }else{
+                monkeyAnimator.setMinAndMaxFrame(70, 100)
+                monkeyAnimator.speed = 1f
+                passwordEdit.transformationMethod = null
+            }
+            monkeyAnimator.playAnimation()
+            passwordEdit.setSelection(selection)
+        }
 
         binding.loginButtonActivityMain.setOnClickListener {
             var email: String = binding.emailLoginActivityMain.text.toString().trim()
             var password: String = binding.passwordLoginActivityMain.text.toString().trim()
            loginUser(email, password)
         }
+
         binding.createAccountButtonActivityMain.setOnClickListener {
            var intent = Intent(this, SignUpActivity::class.java)
            startActivity(intent)
@@ -76,10 +118,44 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateUI() {
         binding.loginActivityMainContainer.visibility = View.INVISIBLE
-        lottieAnimationView = findViewById(R.id.lottie_layer_unlock_activity_main)
-        lottieAnimationView.visibility = View.VISIBLE
-        lottieAnimationView.playAnimation()
-        var intent: Intent = Intent(this, JournalActivity::class.java)
-        startActivity(intent)
+        animationView = findViewById(R.id.lottie_layer_unlock_activity_main)
+        animationView.visibility = View.VISIBLE
+        animationView.playAnimation()
+        animationView.addAnimatorListener(object : Animator.AnimatorListener {
+            override fun onAnimationCancel(p0: Animator) {
+                TODO("Not yet implemented")
+            }
+            override fun onAnimationEnd(animation: Animator) {
+                var intent: Intent = Intent(this@MainActivity, JournalActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            override fun onAnimationRepeat(p0: Animator) {
+                TODO("Not yet implemented")
+            }
+            override fun onAnimationStart(p0: Animator) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
+    private fun animatedController(){
+        monkeyAnimator = findViewById(R.id.lottie_layer_login_activity_main)
+
+        monkeyAnimator.addAnimatorListener(object : Animator.AnimatorListener {
+            override fun onAnimationCancel(p0: Animator) {
+                TODO("Not yet implemented")
+            }
+            override fun onAnimationEnd(animation: Animator) {
+            }
+            override fun onAnimationRepeat(p0: Animator) {
+                monkeyAnimator.setMinAndMaxFrame(0, 30)
+                monkeyAnimator.playAnimation()
+            }
+            override fun onAnimationStart(p0: Animator) {
+                monkeyAnimator.setMinAndMaxFrame(0, 30)
+                monkeyAnimator.playAnimation()
+            }
+        })
     }
 }

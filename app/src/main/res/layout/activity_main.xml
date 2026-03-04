@@ -35,14 +35,13 @@
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottie_layer_login_activity_main"
-                android:src="@drawable/ic_person_pin"
+                app:lottie_rawRes="@raw/login_monkey_character"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="24dp"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                android:background="@drawable/login_image_container"/>
+                app:lottie_autoPlay="false"
+                app:lottie_loop="false"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -73,20 +72,29 @@
                 android:textColor="@color/sea_blue"
                 android:textStyle="bold"/>
 
-            <EditText
-                android:id="@+id/password_login_activity_main"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password_text_field"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="24dp"
-                android:hint="password"
-                android:textColorHint="@color/sea_blue"
-                android:textSize="14sp"
-                android:textColor="@color/black"
-                android:background="@drawable/edit_text_border_box"
-                android:maxLines="1"
-                android:inputType="textPassword"
-                android:paddingLeft="12dp"/>
+                android:layout_height="wrap_content"
+                app:hintEnabled="false"
+                app:endIconMode="password_toggle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password_login_activity_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="24dp"
+                    android:hint="password"
+                    android:textColorHint="@color/sea_blue"
+                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:background="@drawable/edit_text_border_box"
+                    android:maxLines="1"
+                    android:inputType="textPassword"
+                    android:paddingLeft="12dp"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/login_button_activity_main"
