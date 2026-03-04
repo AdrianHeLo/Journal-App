@@ -16,6 +16,7 @@ import com.adrianhelo.journalapp.databinding.ActivityMainBinding
 import com.airbnb.lottie.LottieAnimationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.collection.LLRBNode.Color
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -116,6 +117,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateUI() {
+        supportActionBar?.hide()
         binding.loginActivityMainContainer.visibility = View.INVISIBLE
         animationView = findViewById(R.id.lottie_layer_unlock_activity_main)
         animationView.visibility = View.VISIBLE
