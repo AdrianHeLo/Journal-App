@@ -1,6 +1,5 @@
 package com.adrianhelo.journalapp.presentation.ui
 
-import android.animation.Animator
 import android.content.Intent
 import android.os.Bundle
 import android.text.method.PasswordTransformationMethod
@@ -10,22 +9,22 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import com.adrianhelo.journalapp.R
 import com.adrianhelo.journalapp.data.JournalUser
 import com.adrianhelo.journalapp.databinding.ActivityMainBinding
 import com.airbnb.lottie.LottieAnimationView
-import com.airbnb.lottie.LottieProperty
-import com.airbnb.lottie.model.KeyPath
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var animationView: LottieAnimationView
-    private lateinit var monkeyAnimator: LottieAnimationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,14 +59,14 @@ class MainActivity : AppCompatActivity() {
             val isPasswordVisible = passwordEdit.transformationMethod == null
 
             if (isPasswordVisible){
-                monkeyAnimator.setMinAndMaxFrame(30, 70)
+                monkeyAnimator.setMinAndMaxFrame(100, 145)
                 monkeyAnimator.speed = 2f
                 passwordEdit.transformationMethod = PasswordTransformationMethod.getInstance()
             }else{
                 monkeyAnimator.setMinAndMaxFrame(70, 100)
-                monkeyAnimator.speed = 2f
                 passwordEdit.transformationMethod = null
             }
+            monkeyAnimator.speed = 2f
             monkeyAnimator.playAnimation()
             passwordEdit.setSelection(selection)
         }
@@ -121,41 +120,11 @@ class MainActivity : AppCompatActivity() {
         animationView = findViewById(R.id.lottie_layer_unlock_activity_main)
         animationView.visibility = View.VISIBLE
         animationView.playAnimation()
-        animationView.addAnimatorListener(object : Animator.AnimatorListener {
-            override fun onAnimationCancel(p0: Animator) {
-                TODO("Not yet implemented")
-            }
-            override fun onAnimationEnd(animation: Animator) {
-                var intent: Intent = Intent(this@MainActivity, JournalActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
-            override fun onAnimationRepeat(p0: Animator) {
-                TODO("Not yet implemented")
-            }
-            override fun onAnimationStart(p0: Animator) {
-                TODO("Not yet implemented")
-            }
-        })
-    }
-
-    private fun animatedController(){
-        monkeyAnimator = findViewById(R.id.lottie_layer_login_activity_main)
-
-        monkeyAnimator.addAnimatorListener(object : Animator.AnimatorListener {
-            override fun onAnimationCancel(p0: Animator) {
-                TODO("Not yet implemented")
-            }
-            override fun onAnimationEnd(animation: Animator) {
-            }
-            override fun onAnimationRepeat(p0: Animator) {
-                monkeyAnimator.setMinAndMaxFrame(0, 30)
-                monkeyAnimator.playAnimation()
-            }
-            override fun onAnimationStart(p0: Animator) {
-                monkeyAnimator.setMinAndMaxFrame(0, 30)
-                monkeyAnimator.playAnimation()
-            }
-        })
+        lifecycleScope.launch {
+            delay(2000)
+            var intent: Intent = Intent(this@MainActivity, JournalActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }
