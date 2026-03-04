@@ -4,30 +4,29 @@ Es una aplicación de diario personal desarrollada en Kotlin que permite a los u
 ## 🎯 Objetivo del proyecto
 - Guardar y crear diarios.
 - Gestión de Publicaciones: Creación, lectura y visualización de "Journals" con títulos, descripciones e imágenes.
-- Arquitectura MVC
-- Lenguaje Kotlin
-- Sea fácil de mantener y extender
+- Arquitectura MVC.
+- Lenguaje Kotlin.
+- Sea fácil de mantener y extender.
 
 ## 🚀 Características
 - Interfaz de usuario limpia e intuitiva.
 - Autenticación de Usuarios: Registro e inicio de sesión seguro mediante Firebase Auth.
 - Interfaz Dinámica: Uso de DataBinding y BindingAdapters para una vinculación de datos eficiente y una UI fluida.
 - Vistas Optimizadas: Implementación de RecyclerView con adaptadores personalizados para la visualización de listas.
-- Sigue las mejores prácticas de Android.
+- Lottie para Android: Implementación de animaciones basadas en vectores exportadas desde After Effects.
+- Material Design 3: Para los componentes de UI como `TextInputLayout` y el manejo de estados de contraseña.
 
 ## 🛠️ Tecnología utilizada
 - Android SDK.
 - Kotlin.
-- Gradle.
 - Database Cloud Firestore.
 - Firebase Storage.
+- LottieFiles. 
 - Glide (Manejo eficiente de caché y renderizado).
 - Arquitectura: Model-View-ViewModel (MVVM) conceptual.
 - UI Components: Material Design, DataBinding, CardViews.
 
 ## 📌 Mejoras futuras
-- Animación al iniciar la app.
-- Animacion al ingresar contraseña en Login.
 - Implementacion de elimnacion y modificación de diarios.
 - Opcion de borrar la cuenta.
 
