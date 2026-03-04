@@ -3,6 +3,7 @@ package com.adrianhelo.journalapp.presentation.ui
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import com.adrianhelo.journalapp.R
 import com.adrianhelo.journalapp.data.JournalUser
 import com.adrianhelo.journalapp.databinding.ActivityMainBinding
+import com.airbnb.lottie.LottieAnimationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -18,12 +20,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var auth: FirebaseAuth
+    private lateinit var lottieAnimationView: LottieAnimationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
+        binding.lottieLayerUnlockActivityMain.visibility = View.INVISIBLE
+        binding.loginActivityMainContainer.visibility = View.VISIBLE
         // Initialize Firebase Auth
         auth = Firebase.auth
 
@@ -71,6 +75,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateUI() {
+        binding.loginActivityMainContainer.visibility = View.INVISIBLE
+        lottieAnimationView = findViewById(R.id.lottie_layer_unlock_activity_main)
+        lottieAnimationView.visibility = View.VISIBLE
+        lottieAnimationView.playAnimation()
         var intent: Intent = Intent(this, JournalActivity::class.java)
         startActivity(intent)
     }

@@ -12,7 +12,18 @@
         tools:context=".presentation.ui.MainActivity"
         android:fitsSystemWindows="true">
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_layer_unlock_activity_main"
+            app:lottie_rawRes="@raw/unlock"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/blizzard_blue"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false"/>
+
         <LinearLayout
+            android:id="@+id/login_activity_main_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -22,13 +33,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/image_login_activity_main"
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie_layer_login_activity_main"
+                android:src="@drawable/ic_person_pin"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="24dp"
-                android:src="@drawable/ic_person_pin"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
                 android:background="@drawable/login_image_container"/>
 
             <TextView
@@ -109,5 +122,6 @@
                 android:textStyle="bold"/>
 
         </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
