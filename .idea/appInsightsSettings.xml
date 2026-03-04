@@ -23,9 +23,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.adrianhelo.journalapp" />
-                  <option name="mobileSdkAppId" value="1:495372375206:android:3f9497ee7d798d089d5067" />
-                  <option name="projectId" value="journalapp-fdbdb" />
-                  <option name="projectNumber" value="495372375206" />
+                  <option name="mobileSdkAppId" value="1:458585967366:android:9b3f83131ce77ced08ec87" />
+                  <option name="projectId" value="mydatabase-2e7c4" />
+                  <option name="projectNumber" value="458585967366" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

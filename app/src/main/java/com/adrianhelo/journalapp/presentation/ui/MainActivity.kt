@@ -46,11 +46,11 @@ class MainActivity : AppCompatActivity() {
         binding.passwordLoginActivityMain.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus){
                 monkeyAnimator.setMinAndMaxFrame(30, 70)
-                monkeyAnimator.speed = 1f
+                monkeyAnimator.speed = 2f
                 monkeyAnimator.playAnimation()
             }else{
                 monkeyAnimator.setMinAndMaxFrame(145, 201)
-                monkeyAnimator.speed = 1f
+                monkeyAnimator.speed = 2f
                 monkeyAnimator.playAnimation()
             }
         }
@@ -61,11 +61,11 @@ class MainActivity : AppCompatActivity() {
 
             if (isPasswordVisible){
                 monkeyAnimator.setMinAndMaxFrame(30, 70)
-                monkeyAnimator.speed = -1f
+                monkeyAnimator.speed = 2f
                 passwordEdit.transformationMethod = PasswordTransformationMethod.getInstance()
             }else{
                 monkeyAnimator.setMinAndMaxFrame(70, 100)
-                monkeyAnimator.speed = 1f
+                monkeyAnimator.speed = 2f
                 passwordEdit.transformationMethod = null
             }
             monkeyAnimator.playAnimation()
