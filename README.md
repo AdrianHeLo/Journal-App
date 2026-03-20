@@ -4,7 +4,7 @@ Es una aplicación de diario personal desarrollada en Kotlin que permite a los u
 ## 🎯 Objetivo del proyecto
 - Guardar y crear diarios.
 - Gestión de Publicaciones: Creación, lectura y visualización de "Journals" con títulos, descripciones e imágenes.
-- Arquitectura MVC.
+- Arquitectura MVVM.
 - Lenguaje Kotlin.
 - Sea fácil de mantener y extender.
 
